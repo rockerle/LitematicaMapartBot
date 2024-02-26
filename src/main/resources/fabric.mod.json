@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "mapbot",
+  "version": "${version}",
+  "name": "Mapbot",
+  "description": "A standalone fabric bot for building mapart",
+  "authors": [
+    "rockerle"
+  ],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/mapbot/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "net.rockerle.mapbot.mapbot.client.MapbotClient"
+    ],
+    "main": [
+      "net.rockerle.mapbot.mapbot.Mapbot"
+    ]
+  },
+  "mixins": [
+    "mapbot.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.17",
+    "fabric": "*",
+    "minecraft": "1.19.4"
+  }
+}
