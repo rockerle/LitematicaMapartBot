@@ -27,8 +27,8 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
     //MaliLib
-    modImplementation 'curse.maven:malilib-303119:4519977'
-    modImplementation 'curse.maven:litematica-308892:4492787'
+    modImplementation 'curse.maven:malilib-303119:5096807'
+    modImplementation 'curse.maven:litematica-308892:4946471'
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
@@ -40,6 +40,20 @@ processResources {
 
     filesMatching("fabric.mod.json") {
         expand "version": project.version
+    }
+}
+
+tasks.register('getMajorVersion') {
+    def s = project.minecraft_version.split('\\.')[1]
+    println s
+}
+
+tasks.register('getMinorVersion') {
+    try {
+        def v = project.minecraft_version.split('\\.')[2]
+        println v
+    }catch(Exception){
+        println '0'
     }
 }
 

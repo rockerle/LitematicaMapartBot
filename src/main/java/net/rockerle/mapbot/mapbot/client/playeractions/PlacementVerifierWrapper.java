@@ -32,7 +32,6 @@ public class PlacementVerifierWrapper {
     }
 
     public void verify(SchematicPlacement placement) {
-        System.out.println("Verifying "+placement.getName());
         oR.clearRenderedPath();
         this.placement = placement;
         this.verifier = placement.getSchematicVerifier();
@@ -47,11 +46,8 @@ public class PlacementVerifierWrapper {
 
     public boolean schematicFinished() {
         if (this.verifier == null) {
-            System.out.println("Verifier is null");
             return false;
         }
-        System.out.println("schematic finished verifying?: " + this.verifier.isFinished());
-        System.out.println("having "+this.verifier.getMissingBlocks()+" left to place");
         int leftOver = this.verifier.getMissingBlocks();
         if(leftOver<1)
             MapbotClient.runningBot=false;
@@ -86,14 +82,12 @@ public class PlacementVerifierWrapper {
 
                 @Override
                 public void run() {
-                    System.out.println("starting new Pathfinding");
                     new PathFinding(this::onPathFound, bP);
                 }
 
                 @Override
                 public void onPathFound(PathResult p) {
                     oR.clearRenderedPath();
-//                    MapbotClient.mc.player.sendMessage(Text.of("Path finding ended ..."));
                     if (!p.path().isEmpty()) {
                         oR.visualizePath(p.path());
                         pw.walkPath(p.path(), bP, goalState);
@@ -101,18 +95,18 @@ public class PlacementVerifierWrapper {
                     }
                 }
             }
-            System.out.println("executing PVW onTaskComplete()");
-//            MapbotClient.mc.player.sendMessage(Text.of("Verifying complete!"));
             List<SchematicVerifier.BlockMismatch> missmatches = this.ver.getMismatchOverviewFor(SchematicVerifier.MismatchType.MISSING).stream().filter(inventoryFilter).toList();
             this.ver.addIgnoredStateMismatches(missmatches);
             this.ver.toggleMismatchCategorySelected(SchematicVerifier.MismatchType.MISSING);
             this.wrapper.awailableBlocks = this.ver.getSelectedMismatchBlockPositionsForRender();
             if(!this.wrapper.awailableBlocks.isEmpty()){
-//            if (!this.ver.getSelectedMismatchBlockPositionsForRender().isEmpty()) {
+                MapbotClient.mc.options.getAutoJump().setValue(true);
                 BlockPos pos = this.ver.getSelectedMismatchBlockPositionsForRender().get(0);
                 new Thread(new PathRunnable(pos, SchematicWorldHandler.getSchematicWorld().getBlockState(pos))).start();
-            } else
-                System.out.println("No SelectedMismatchBlockPos in list!!!!!!!!");
+            } else {
+                MapbotClient.mc.options.getAutoJump().setValue(false);
+                System.out.println("No SelectedMismatchBlockPos in list! Stoping building");
+            }
         }
     }
 }

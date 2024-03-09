@@ -6,6 +6,7 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -42,7 +43,6 @@ public class BlockPlacer {
     }
 
     public void placeBlock(BlockPos bP) {
-        System.out.println("Placing block @ " + bP.toShortString());
         interactionManager.interactBlock(player, Hand.MAIN_HAND, new BlockHitResult(bP.toCenterPos(), Direction.DOWN, bP, true));
         DataManager.getSchematicPlacementManager().getSelectedSchematicPlacement().getSchematicVerifier().markBlockChanged(bP);
         MapbotClient.runningBot = true;

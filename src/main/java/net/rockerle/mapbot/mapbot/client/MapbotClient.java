@@ -25,7 +25,7 @@ public class MapbotClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         mc = MinecraftClient.getInstance();
-        test = KeyBindingHelper.registerKeyBinding(new KeyBinding("test", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_J, "cat.test"));
+        test = KeyBindingHelper.registerKeyBinding(new KeyBinding("start_map_building", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_J, "cat.test"));
 
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> this.runningBot = false);
         ClientPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
@@ -37,7 +37,6 @@ public class MapbotClient implements ClientModInitializer {
         ClientTickEvents.START_CLIENT_TICK.register(ctx -> {
             if (runningBot && !verWrapper.schematicFinished()) {
                 this.runningBot = false;
-                System.out.println("Next Block Starting");
                 verWrapper.verify(DataManager.getSchematicPlacementManager().getSelectedSchematicPlacement());
             }
             if (test.wasPressed() && mc.player != null) {

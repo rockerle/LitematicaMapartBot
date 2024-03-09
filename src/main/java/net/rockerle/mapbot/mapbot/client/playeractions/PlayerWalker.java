@@ -25,30 +25,20 @@ public class PlayerWalker {
     private BlockPos goalPos;
 
     public PlayerWalker(ClientPlayerEntity player) {
-        System.out.println("Player walker created!");
         bplacer = new BlockPlacer(player);
     }
 
     public void tick() {
-        System.out.println("[PlayerWalker]: tick()");
         if (this.isActive && !this.path.isEmpty() && posIter != null) {
             if (posIter.hasNext()) {
-//                if(client.player.getBlockPos().equals(goalPos)){
-                if (client.player.getPos().distanceTo(goalPos.toCenterPos()) < client.interactionManager.getReachDistance() - 1) {
-                    this.toggle();
-                    bplacer.selectBlock(goalState.getBlock().asItem());
-                    bplacer.placeBlock(path.get(path.size() - 1));
-                    return;
-                }
                 if (client.player.getBlockPos().equals(nextPos))
                     nextPos = posIter.next();
-                if (nextPos != null)
-                    goToBlockPos(nextPos);
                 else
-                    System.out.println("Huh?!?!?! next pos is null");
+                    goToBlockPos(nextPos);
             } else {
-                System.out.println("No more nextPos left");
-                toggle();
+                this.toggle();
+                bplacer.selectBlock(goalState.getBlock().asItem());
+                bplacer.placeBlock(goalPos);
             }
         }
     }
@@ -58,7 +48,6 @@ public class PlayerWalker {
     }
 
     public void toggle() {
-        System.out.println("toggle walker");
         this.isActive = !this.isActive;
     }
 
@@ -74,10 +63,8 @@ public class PlayerWalker {
     }
 
     public void goToBlockPos(BlockPos bP) {
-        System.out.println("Going to: " + bP.toString());
-        Vec3d player = client.player.getPos();
+        Vec3d player = client.player.getBlockPos().toCenterPos();
         Vec3d pos = bP.toCenterPos().add(player.negate());
-        System.out.println("Trying to go from playerPos: " + player.toString() + " to next BlockPos: " + bP.toShortString());
         client.player.move(MovementType.SELF, pos.normalize());
     }
 }

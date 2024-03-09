@@ -15,7 +15,6 @@ public class AStar implements PathFinder {
 
     private OutlineRenderer or;
     private final MinecraftClient mc;
-    private boolean visCurrent = true;
 
     public AStar(MinecraftClient mc) {
         this.mc = mc;
@@ -25,19 +24,19 @@ public class AStar implements PathFinder {
     public LinkedList<BlockPos> findPath(BlockPos start, BlockPos end) throws NoPathFoundException {
         if(!or.visCurrent)
             or.visCurrent = true;
-        if (!BlockPosUtil.isTraversable(end)) {
-            //mc.inGameHud.addChatMessage(MessageType.SYSTEM, Text.of("Point is not traversable, try a different position!"), mc.player.getUuid());
-//            mc.player.sendMessage(Text.of("Point is not traversable, try a different position!"));
-            throw new NoPathFoundException();
-        }
-
-        if (BlockPosUtil.isUpperTraversable(end)) {
-            System.out.println("going up");
-            end = end.up();
-        } else if (BlockPosUtil.isLowerTraversable(end)) {
-            System.out.println("going down");
-            end = end.down();
-        }
+//        if (!BlockPosUtil.isTraversable(end)) {
+//            //mc.inGameHud.addChatMessage(MessageType.SYSTEM, Text.of("Point is not traversable, try a different position!"), mc.player.getUuid());
+////            mc.player.sendMessage(Text.of("Point is not traversable, try a different position!"));
+//            throw new NoPathFoundException();
+//        }
+//
+//        if (BlockPosUtil.isUpperTraversable(end)) {
+//            System.out.println("going up");
+//            end = end.up();
+//        } else if (BlockPosUtil.isLowerTraversable(end)) {
+//            System.out.println("going down");
+//            end = end.down();
+//        }
 
         HashMap<BlockPos, BlockPos> cameFrom = new HashMap<>();
         HashMap<BlockPos, Integer> fScore = new HashMap<>();
@@ -58,7 +57,7 @@ public class AStar implements PathFinder {
             BlockPos current = openSet.remove();
             closedSet.add(current);
 
-            if (current.equals(end)) {
+            if (current.equals(end) || current.toCenterPos().distanceTo(end.toCenterPos())<mc.interactionManager.getReachDistance()-1) {
                 or.visCurrent = false;
                 return constructPath(cameFrom, current);
             }
@@ -72,7 +71,6 @@ public class AStar implements PathFinder {
             neighbours.add(current.west());
             neighbours.add(current.north());
             neighbours.add(current.south());
-            long startTime = System.currentTimeMillis();
             for (BlockPos neighbour : neighbours) {
                 if (!BlockPosUtil.isTraversable(neighbour) || closedSet.contains(neighbour)) {
                     continue;
@@ -98,9 +96,6 @@ public class AStar implements PathFinder {
                         openSet.add(neighbour);
                 }
             }
-            long endTime = System.currentTimeMillis();
-//            System.out.println("took "+(endTime-startTime)+"ms to choose a neighbour");
-//            or.visualizeCurrentPath(constructPath(cameFrom,current));
         }
 
         throw new NoPathFoundException();
@@ -110,13 +105,10 @@ public class AStar implements PathFinder {
         LinkedList<BlockPos> path = new LinkedList<>();
         BlockPos current = last;
         path.add(current);
-        long start = System.currentTimeMillis();
         while (cameFrom.containsKey(current)) {
             current = cameFrom.get(current);
             path.addFirst(current);
         }
-        long end = System.currentTimeMillis();
-//        System.out.println("Took "+(end-start)+"ms to construct path from set of blockpos");
         return path;
     }
 }
