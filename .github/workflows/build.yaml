@@ -37,5 +37,5 @@ jobs:
           name: MapArtBot-MC-1.${{ steps.tag.outputs.MAJ }}.${{ steps.tag.outputs.MIN }}
           tag: MC-1.${{ steps.tag.outputs.MAJ }}
           allowUpdates: true
-          replacesArtifacts: false
+          replacesArtifacts: true
           removeArtifacts: false

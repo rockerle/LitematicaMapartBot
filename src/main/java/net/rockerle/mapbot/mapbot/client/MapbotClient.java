@@ -10,6 +10,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.text.Text;
 import net.rockerle.mapbot.mapbot.client.playeractions.PlacementVerifierWrapper;
 import net.rockerle.mapbot.mapbot.client.playeractions.PlayerWalker;
 import org.lwjgl.glfw.GLFW;
@@ -37,7 +38,11 @@ public class MapbotClient implements ClientModInitializer {
         ClientTickEvents.START_CLIENT_TICK.register(ctx -> {
             if (runningBot && !verWrapper.schematicFinished()) {
                 this.runningBot = false;
-                verWrapper.verify(DataManager.getSchematicPlacementManager().getSelectedSchematicPlacement());
+                try {
+                    verWrapper.verify(DataManager.getSchematicPlacementManager().getSelectedSchematicPlacement());
+                }catch(Exception e){
+                    mc.player.sendMessage(Text.of("§4No Placement Selected!"), true);
+                }
             }
             if (test.wasPressed() && mc.player != null) {
                 this.runningBot = !this.runningBot;
