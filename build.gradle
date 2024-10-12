@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.1-SNAPSHOT'
+    id 'fabric-loom' version '1.7-SNAPSHOT'
     id 'maven-publish'
 }
 
@@ -14,10 +14,7 @@ repositories {
     // for more information about repositories.
     mavenCentral()
     maven {
-        url "https://cursemaven.com"
-        content {
-            includeGroup "curse.maven"
-        }
+        url = "https://api.modrinth.com/maven"
     }
 }
 dependencies {
@@ -26,9 +23,9 @@ dependencies {
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-    //MaliLib
-    modImplementation 'curse.maven:malilib-303119:5096807'
-    modImplementation 'curse.maven:litematica-308892:4946471'
+    modImplementation("maven.modrinth:GcWjdA9I:oExLoQk8")
+    //litematica
+    modImplementation("maven.modrinth:bEpr0Arc:5kAmiBye")
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
@@ -57,7 +54,10 @@ tasks.register('getMinorVersion') {
     }
 }
 
-def targetJavaVersion = 17
+loom {
+    accessWidenerPath = file("src/main/resources/mapbot.accessWidener")
+}
+def targetJavaVersion = 21
 tasks.withType(JavaCompile).configureEach {
     // ensure that the encoding is set to UTF-8, no matter what the system default is
     // this fixes some edge cases with special characters not displaying correctly

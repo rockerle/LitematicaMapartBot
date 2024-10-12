@@ -2,10 +2,13 @@
   "required": true,
   "minVersion": "0.8",
   "package": "net.rockerle.mapbot.mapbot.client.mixins",
-  "compatibilityLevel": "JAVA_17",
+  "compatibilityLevel": "JAVA_21",
   "mixins": [
   ],
   "client": [
+    "ClientPayerInteractionManagerMixin",
+    "GenericContainerScreenMixin",
+    "ShulkerBoxScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

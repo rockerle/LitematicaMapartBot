@@ -39,7 +39,7 @@ public class OutlineRenderer extends BlockOutlineDebugRenderer {
         RenderSystem.disableDepthTest();
 
         Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder bufferBuilder = tessellator.getBuffer();
+        BufferBuilder bufferBuilder = tessellator.begin(VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION_COLOR);
 
         for (BlockPos pos : blocksToOutline) {
             float x = (float) (pos.getX() - cameraPos.getX());
@@ -47,39 +47,41 @@ public class OutlineRenderer extends BlockOutlineDebugRenderer {
             float z = (float) (pos.getZ() - cameraPos.getZ());
 
             // down
-            bufferBuilder.begin(VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION_COLOR);
-            bufferBuilder.vertex(posMatrix, x, y, z).color(r, g, b, a).next();
-            bufferBuilder.vertex(posMatrix, x, y, z + 1.0f).color(r, g, b, a).next();
-            bufferBuilder.vertex(posMatrix, x + 1.0f, y, z + 1.0f).color(r, g, b, a).next();
-            bufferBuilder.vertex(posMatrix, x + 1.0f, y, z).color(r, g, b, a).next();
-            tessellator.draw();
+//            bufferBuilder.begin(VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION_COLOR);
+            bufferBuilder.vertex(posMatrix, x, y, z).color(r, g, b, a);
+            bufferBuilder.vertex(posMatrix, x, y, z + 1.0f).color(r, g, b, a);
+            bufferBuilder.vertex(posMatrix, x + 1.0f, y, z + 1.0f).color(r, g, b, a);
+            bufferBuilder.vertex(posMatrix, x + 1.0f, y, z).color(r, g, b, a);
+//            tessellator.draw();
             // west
-            bufferBuilder.begin(VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION_COLOR);
-            bufferBuilder.vertex(posMatrix, x, y, z).color(r, g, b, a).next();
-            bufferBuilder.vertex(posMatrix, x + 1.0f, y, z).color(r, g, b, a).next();
-            bufferBuilder.vertex(posMatrix, x + 1.0f, y + 1.0f, z).color(r, g, b, a).next();
-            bufferBuilder.vertex(posMatrix, x, y + 1.0f, z).color(r, g, b, a).next();
-            tessellator.draw();
+//            bufferBuilder.begin(VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION_COLOR);
+            bufferBuilder.vertex(posMatrix, x, y, z).color(r, g, b, a);
+            bufferBuilder.vertex(posMatrix, x + 1.0f, y, z).color(r, g, b, a);
+            bufferBuilder.vertex(posMatrix, x + 1.0f, y + 1.0f, z).color(r, g, b, a);
+            bufferBuilder.vertex(posMatrix, x, y + 1.0f, z).color(r, g, b, a);
+//            tessellator.draw();
             // south
-            bufferBuilder.begin(VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION_COLOR);
-            bufferBuilder.vertex(posMatrix, x, y, z).color(r, g, b, a).next();
-            bufferBuilder.vertex(posMatrix, x, y + 1.0f, z).color(r, g, b, a).next();
-            bufferBuilder.vertex(posMatrix, x, y + 1.0f, z + 1.0f).color(r, g, b, a).next();
-            bufferBuilder.vertex(posMatrix, x, y, z + 1.0f).color(r, g, b, a).next();
-            tessellator.draw();
+//            bufferBuilder.begin(VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION_COLOR);
+            bufferBuilder.vertex(posMatrix, x, y, z).color(r, g, b, a);
+            bufferBuilder.vertex(posMatrix, x, y + 1.0f, z).color(r, g, b, a);
+            bufferBuilder.vertex(posMatrix, x, y + 1.0f, z + 1.0f).color(r, g, b, a);
+            bufferBuilder.vertex(posMatrix, x, y, z + 1.0f).color(r, g, b, a);
+//            tessellator.draw();
             // east
-            bufferBuilder.begin(VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION_COLOR);
-            bufferBuilder.vertex(posMatrix, x, y + 1.0f, z + 1.0f).color(r, g, b, a).next();
-            bufferBuilder.vertex(posMatrix, x + 1.0f, y + 1.0f, z + 1.0f).color(r, g, b, a).next();
-            bufferBuilder.vertex(posMatrix, x + 1.0f, y, z + 1.0f).color(r, g, b, a).next();
-            tessellator.draw();
+//            bufferBuilder.begin(VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION_COLOR);
+            bufferBuilder.vertex(posMatrix, x, y + 1.0f, z + 1.0f).color(r, g, b, a);
+            bufferBuilder.vertex(posMatrix, x + 1.0f, y + 1.0f, z + 1.0f).color(r, g, b, a);
+            bufferBuilder.vertex(posMatrix, x + 1.0f, y, z + 1.0f).color(r, g, b, a);
+//            tessellator.draw();
             // north
-            bufferBuilder.begin(VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION_COLOR);
-            bufferBuilder.vertex(posMatrix, x + 1.0f, y + 1.0f, z).color(r, g, b, a).next();
-            bufferBuilder.vertex(posMatrix, x + 1.0f, y + 1.0f, z + 1.0f).color(r, g, b, a).next();
-            tessellator.draw();
+//            bufferBuilder.begin(VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION_COLOR);
+            bufferBuilder.vertex(posMatrix, x + 1.0f, y + 1.0f, z).color(r, g, b, a);
+            bufferBuilder.vertex(posMatrix, x + 1.0f, y + 1.0f, z + 1.0f).color(r, g, b, a);
+//            tessellator.draw();
+
+//            BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
         }
-//
+        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
 //        RenderSystem.enableDepthTest();
 //        RenderSystem.depthMask(true);
         RenderSystem.disableBlend();
