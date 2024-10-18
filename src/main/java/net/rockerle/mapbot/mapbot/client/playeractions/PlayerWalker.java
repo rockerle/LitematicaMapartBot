@@ -7,8 +7,6 @@ import net.minecraft.entity.MovementType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.rockerle.mapbot.mapbot.client.MapbotClient;
-import net.rockerle.mapbot.mapbot.client.pathfinding.astar.util.BlockPosUtil;
-import org.joml.Vector3d;
 
 import java.util.ArrayList;
 import java.util.Iterator;

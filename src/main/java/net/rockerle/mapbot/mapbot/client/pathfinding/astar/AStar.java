@@ -1,11 +1,8 @@
 package net.rockerle.mapbot.mapbot.client.pathfinding.astar;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
-import net.rockerle.mapbot.mapbot.client.MapbotClient;
 import net.rockerle.mapbot.mapbot.client.pathfinding.astar.util.BlockPosUtil;
-import net.rockerle.mapbot.mapbot.client.pathfinding.astar.util.McInstanceUtilException;
 import net.rockerle.mapbot.mapbot.client.rendering.OutlineRenderer;
 
 import java.util.*;
