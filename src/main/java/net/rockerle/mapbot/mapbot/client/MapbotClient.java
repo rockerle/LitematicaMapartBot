@@ -28,7 +28,10 @@ public class MapbotClient implements ClientModInitializer {
         mc = MinecraftClient.getInstance();
         test = KeyBindingHelper.registerKeyBinding(new KeyBinding("start_map_building", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_J, "cat.test"));
 
-        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> this.runningBot = false);
+        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
+            this.runningBot = false;
+            this.walker.stop();
+        });
         ClientPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             walker = new PlayerWalker(mc.player);
             verWrapper = new PlacementVerifierWrapper(walker);

@@ -8,6 +8,7 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BlockView;
 import net.rockerle.mapbot.mapbot.client.MapbotClient;
 
@@ -79,6 +80,20 @@ public class BlockPosUtil {
         return true;
     }
 
+    public static double distance(BlockPos a, Vec3d b){
+        double x = a.getX() - b.getX();
+        double y = a.getY() - b.getY();
+        double z = a.getZ() - b.getZ();
+
+        return x*x + y*y + z*z;
+    }
+    public static double distance(Vec3d a, Vec3d b){
+        double x = a.getX() - b.getX();
+        double y = a.getY() - b.getY();
+        double z = a.getZ() - b.getZ();
+
+        return x*x + y*y + z*z;
+    }
     public static int distance(BlockPos from, BlockPos to) {
         int x = from.getX() - to.getX();
         int y = from.getY() - to.getY();

@@ -7,6 +7,8 @@ import net.minecraft.entity.MovementType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.rockerle.mapbot.mapbot.client.MapbotClient;
+import net.rockerle.mapbot.mapbot.client.pathfinding.astar.util.BlockPosUtil;
+import org.joml.Vector3d;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -31,10 +33,12 @@ public class PlayerWalker {
     public void tick() {
         if (this.isActive && !this.path.isEmpty() && posIter != null) {
             if (posIter.hasNext()) {
-                if (client.player.getBlockPos().equals(nextPos))
+                Vec3d nextGoal = nextPos.toCenterPos().add(0.0,0.5,0.0);
+                if (client.player.getBlockPos().equals(nextPos)) {
                     nextPos = posIter.next();
+                }
                 else
-                    goToBlockPos(nextPos);
+                    goToBlockPos(nextGoal);
             } else {
                 this.toggle();
                 bplacer.selectBlock(goalState.getBlock().asItem());
@@ -51,6 +55,10 @@ public class PlayerWalker {
         this.isActive = !this.isActive;
     }
 
+    public void stop(){
+        this.isActive = false;
+    }
+
     public void walkPath(List<BlockPos> path, BlockPos toPlace, BlockState bS) {
         if (!this.isActive) {
             this.goalState = bS;
@@ -62,9 +70,8 @@ public class PlayerWalker {
         }
     }
 
-    public void goToBlockPos(BlockPos bP) {
-        Vec3d player = client.player.getBlockPos().toCenterPos();
-        Vec3d pos = bP.toCenterPos().add(player.negate());
-        client.player.move(MovementType.SELF, pos.normalize());
+    public void goToBlockPos(Vec3d pos){
+        Vec3d dirVec = pos.subtract(client.player.getPos());
+        client.player.move(MovementType.SELF, dirVec);
     }
 }

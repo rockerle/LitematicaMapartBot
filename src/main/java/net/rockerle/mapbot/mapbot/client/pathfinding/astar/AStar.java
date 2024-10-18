@@ -57,7 +57,7 @@ public class AStar implements PathFinder {
             BlockPos current = openSet.remove();
             closedSet.add(current);
 
-            if (current.equals(end) || current.toCenterPos().distanceTo(end.toCenterPos())<mc.interactionManager.getReachDistance()-1) {
+            if (current.equals(end) || current.toCenterPos().distanceTo(end.toCenterPos())<mc.player.getBlockInteractionRange()-1/*mc.interactionManager.getReachDistance()-1*/) {
                 or.visCurrent = false;
                 return constructPath(cameFrom, current);
             }
