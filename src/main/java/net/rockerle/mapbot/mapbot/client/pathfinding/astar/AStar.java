@@ -1,8 +1,11 @@
 package net.rockerle.mapbot.mapbot.client.pathfinding.astar;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
+import net.rockerle.mapbot.mapbot.client.MapbotClient;
 import net.rockerle.mapbot.mapbot.client.pathfinding.astar.util.BlockPosUtil;
+import net.rockerle.mapbot.mapbot.client.pathfinding.astar.util.McInstanceUtilException;
 import net.rockerle.mapbot.mapbot.client.rendering.OutlineRenderer;
 
 import java.util.*;
@@ -53,8 +56,9 @@ public class AStar implements PathFinder {
         while (!openSet.isEmpty()) {
             BlockPos current = openSet.remove();
             closedSet.add(current);
-
-            if (current.equals(end) || current.toCenterPos().distanceTo(end.toCenterPos())<mc.player.getBlockInteractionRange()-1/*mc.interactionManager.getReachDistance()-1*/) {
+            if (current.equals(end) || current.toCenterPos().distanceTo(end.toCenterPos())<3.5){
+//            For 1.20.5
+//            if (current.equals(end) || current.toCenterPos().distanceTo(end.toCenterPos())<mc.player.getBlockInteractionRange()-1) {
                 or.visCurrent = false;
                 return constructPath(cameFrom, current);
             }
